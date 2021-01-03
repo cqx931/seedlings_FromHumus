@@ -80,9 +80,10 @@ class SoilWord {
   }
 
   rightclick(e, d) {
+    console.log("soil right clicked")
     let self = this.active == undefined ? soil[this.id] : this;
     e.preventDefault();
-    $('#options').hide();
+    //$('#options').hide();
     $('#plantTypes').show();
     $('#plantTypes').css('left', e.clientX + 'px');
     $('#plantTypes').css('top', e.clientY + 'px');
@@ -573,12 +574,13 @@ class Plant {
   onrightClicked(d, self) {
     console.log(self.id, plants[self.id])
     let rightClickOnPlant = self.id;
-    $("svg").bind("contextmenu", function(e) {
+    $("#" + self.id).bind("contextmenu", function(e) {
       if (rightClickOnPlant == null) {
         $("svg").unbind("contextmenu");
         $('svg').removeClass("contextMenu");
       }
       e.preventDefault();
+      console.log("plant options show")
       $('#options').show();
       $('#options').css('left', e.clientX + 'px');
       $('#options').css('top', e.clientY + 'px');
@@ -626,17 +628,17 @@ class Ginkgo extends Plant {
     this.updateBranch();
   }
 
-  growBranch(w, i) { // gingkgo
+  growBranch(w, i) { // ginkgo
     const x = this.x,
-      y = this.currentP.y;
+          y = this.currentP.y;
     var b = this.g.append("g")
-      .style("transition-delay", START_DELAY + i * 500 + "ms")
-      .attr("class", "branch");
+                .style("transition-delay", START_DELAY + i * 500 + "ms")
+                .attr("class", "branch");
     var angle = 15 * i + this.START_ANGLE;
 
     // find the end point
-    var endy = this.LENGTH * Math.sin(Math.radians(angle)) + y
-    var endx = this.LENGTH * Math.cos(Math.radians(angle)) + x
+    var endy = this.LENGTH * Math.sin(Math.radians(angle)) + y;
+    var endx = this.LENGTH * Math.cos(Math.radians(angle)) + x;
 
     b.append("line")
       .style("position", "absolute")
@@ -650,19 +652,22 @@ class Ginkgo extends Plant {
     const transform = "translate(5px) rotate(" + (angle) + "deg) ",
       origin = x + "px " + y + "px 0px";
 
-    b.append("text")
+    const textWrapper = b.append("g")
+    .style("transform", transform)
+    .style("-webkit-transform", transform)
+    .style("transform-origin", origin)
+    .style("-webkit-transform-origin", origin)
+    .attr("class", "branch_text_wrapper");
+
+    textWrapper.append("text")
       .attr("x", x)
       .attr("y", y)
-      .style("transform", transform)
-      .style("transform-origin", origin)
       .text("            " + w)
       .attr("class", "branch_text bg");
 
-    b.append("text")
+    textWrapper.append("text")
       .attr("x", x)
       .attr("y", y)
-      .style("transform", transform)
-      .style("transform-origin", origin)
       .text("            " + w)
       .attr("class", "branch_text");
 
@@ -884,21 +889,23 @@ class Dandelion extends Plant {
 
     const transform = "translate(5px) rotate(" + (angle / 5 - 60) + "deg) ";
     const origin = this.x + "px " + local_Y + "px 0px";
+    const textWrapper = b.append("g")
+    .attr("class", "branch_text_wrapper")
+    .style("transform", transform)
+    .style("-webkit-transform", transform)
+    .style("transform-origin", origin)
+    .style("-webkit-transform-origin", origin);
 
-    b.append("text")
+    textWrapper.append("text")
+      .text(w)
       .attr("x", endx - 20)
       .attr("y", endy - 20)
-      .style("transform", transform)
-      .style("transform-origin", origin)
-      .text(w)
       .attr("class", "branch_text bg");
 
-    b.append("text")
+    textWrapper.append("text")
+      .text(w)
       .attr("x", endx - 20)
       .attr("y", endy - 20)
-      .style("transform", transform)
-      .style("transform-origin", origin)
-      .text(w)
       .attr("class", "branch_text");
 
     if (i == this.result.length - 1) this.endPos = {
