@@ -420,7 +420,7 @@ function shuffle(array) {
 function clearCanvas() {
   $("#pages li").removeClass("current");
   $("#soil" ).empty();
-  $(".wrapper").empty();
+  $("svg g.seedling").remove();
   plants = {}; // All the plants
   soil = {}; // The soil object
   soilOder = []; // A list of soil id
