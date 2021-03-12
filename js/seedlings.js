@@ -1040,19 +1040,20 @@ class Bamboo extends Plant {
     this.currentP.x += 30;
     this.currentP.y -= 10;
   }
-
-
 }
 
-var PLANTS = {
+let PLANTS = {
+  "bamboo": Bamboo,
+  "dandelion": Dandelion,
   "ginkgo": Ginkgo,
-  "plant": Plant,
   //"koru":Koru,
   "ivy": Ivy,
-  "bamboo": Bamboo,
   "pine": Pine,
-  "dandelion": Dandelion
+  "plant": Plant
 }
+// remove bamboo for safari
+const is_safari = navigator.userAgent.toLowerCase().indexOf('safari/') > -1;
+if(is_safari) delete PLANTS["bamboo"];
 
 // Functions
 function drawSeed(seed, x, y, g, h) {
