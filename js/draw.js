@@ -168,6 +168,8 @@ function initializeSoil(page, pageMode, callback) {
     yPos = initialY;
   let rightMostXPos = xPos;
 
+  if(pageMode) PAGE_MODE = true;
+
   console.log("Initialize Text:", page)
   $("#pages ul li:eq(" + (page-1) + ")") .addClass("current");
 

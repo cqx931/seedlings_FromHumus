@@ -353,7 +353,7 @@ a {
 
 /****** General CSS *******/
 g text, #verticalTest {
-  font-family: 'SourceCodePro-Light';
+  font-family: 'SourceCodePro-Light', monospace;
 }
 
 g text.soil {
